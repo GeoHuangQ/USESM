@@ -5,7 +5,8 @@ We adopted the definition of the compartment in the SEIR model, classifying the 
 # Model framework
 This model integrates the initialization module as well as the infection movement module and the epidemic transmission module. In the initialization module, the study area is divided into several sub-regions and generates four types of agents (S: susceptible, E: exposed, I: infection, R: recovered) in the sub-regions based on the infections, incubation periods, and population at the initial time (Time = 1). The initial module generates a SIER dataset to store all data of the model including current time, infection period, incubation period, agent status, quantity, etc. In the infection movement module, the movement possibility of each infection is calculated, and a binary roulette is built based on this probability to determine whether the infection can move. For each infection requiring movement, the model calculates the probability of moving to each sub-region and uses a multivariate roulette to determine the destination. Moreover, the model calculates the probability that the infection will stay at the destination; if this decision probability is successfully converted into agent action, the infection will stay at the destination until removed; otherwise, the infection will return to the origin sub-region on the same day. In the epidemic transmission module, POI and mobile phone signaling data are used to correct the basic reproduction number (R0) in different sub-regions, then calculates the number of the next generation exposed through a random draw from a Poisson distribution (mathematical expectation is corrected R0) for each infection. The temporarily moved infections will return to the origin sub-region after this step to avoid interference with subsequent epidemic transmission simulation. At the end of the epidemic transmission module, Bernoulli trials (mathematical expectations are the reciprocal of incubation period and infection period) are used for each exposed person and infections to acquire the next generation infections and removed persons. Finally, the model checks whether the SEIR data reaches the termination condition: if not, the SEIR dataset will proceed to the next iteration (Time = time +1); if so, the model will output the SEIR dataset for the entire simulation period.
 # Input options and formats
-
+human_mobility_data_package.py is the code to calculate human mobility data into a flow matrix
+USESM.PY is the main code of the model
 - pop_path: Path of parameters data (Each type of parameter is a sheet in EXCEL)
 >   pat_locator: a table with 4 variables (pat_name;pat_region;pat_id;area).
 >>  "pat_name": the names of different sub-regions
@@ -59,8 +60,18 @@ This model integrates the initialization module as well as the infection movemen
 >>
 >>  "distance": the distance of population movements within and between sub-regions
 
+- R0_pd_out: The minimum and maximum values of R0
+- den_poi_factors_out: Weights of different POI densities
+- expose_out: Incubation period
+- poi_flow_factors_out: the weight of POI densities and Human mobility
+
 # Data sharing
 
-The epidemiological data were obtained from the government website of Beijing. We purchased the Mobile phone signaling data (May 5 to June 30, 2020) from the service provider (China Mobile). Our data purchase agreement with China Mobile prohibits us from sharing these data with third parties, but interested parties can contact China Mobile to make the same data purchase. All data has been approved by the ethics board.
+- The epidemiological data (CSV)
+The epidemiological data were obtained from the government website of Beijing. 
+
+- Human mobility data
+We purchased the Mobile phone signaling data (May 5 to June 30, 2020) from the service provider (China Mobile). Our data purchase agreement with China Mobile prohibits us from sharing these data with third parties, but interested parties can contact China Mobile to make the same data purchase.
+
 
 **Contact**: HuangQiang; huangq@lreis.ac.cn
