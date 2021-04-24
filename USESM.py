@@ -220,7 +220,7 @@ if __name__ == '__main__':
     poi_impact_out = poi_process(den_poi_out, den_poi_factors_out)
     poi_flow_factors_out = [0.5, 0.5]
     flow_pop_area_distance_impact_out = flow_quantify(pat_locator_out, mob_mat_out, pat_pop_out)
-    exposed_pop_inf_prop_out = 0
+    exposed_pop_inf_prop_out  = 0
     TSinday_out = 1
     spread_today_Rs, spread_today_matrix = run_sim(initial_inf_out, pat_locator_out, initial_exp_out,control_df_out_out, control_df_in_out, mob_mat_out,day_list_out,rec_rate_pd_out, exp_rate_pd_out, expose_out,exposed_pop_inf_prop_out, TSinday_out, poi_impact_out,pat_pop_out, R0_pd_out, poi_flow_factors_out,flow_pop_area_distance_impact_out)
     save_file = open("C:/Users/qiang/Desktop/data_patch2/" + "control_" +  "_rec_" + ".pkl", "wb")
